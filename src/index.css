@@ -1,0 +1,22 @@
+form {
+  border: 1px;
+  display: none;
+}
+
+.carousel {
+  padding: 0px 200px 0px 200px;
+}
+
+.legend {
+  background-color: #0a0909;
+}
+
+.navbar {
+  background-color: #0a0909;
+  align-items: center;
+}
+
+.bg-light {
+  margin-left: 400px;
+  background-color: #b8cbdd;
+}
