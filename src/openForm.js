@@ -3,8 +3,13 @@ import isEmpty from 'lodash/isEmpty'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class OpenForm extends React.Component {
+
+  submit = (e) => {
+    this.props.handleOnSubmit(e)
+    this.props.onClose()
+  }
   render() {
-    const { onClose, isOpen, values, handleOnChange, handleOnSubmit } = this.props;
+    const { onClose, isOpen, values, handleOnChange } = this.props;
     if (isEmpty(values)) return null;
 
     return (
@@ -24,24 +29,44 @@ class OpenForm extends React.Component {
               </FormGroup>
               <FormGroup>
                 <Label for="venue">Venue</Label>
-                <Input type="text" name="venue" value={values.venue} onChange={handleOnChange} placeholder="Event Venue..." />
+                <Input
+                  type="text"
+                  name="venue"
+                  value={values.venue}
+                  onChange={handleOnChange}
+                  placeholder="Event Venue..." />
               </FormGroup>
               <FormGroup>
                 <Label for="date">Event Date</Label>
-                <Input type="date" name="date" value={values.date} onChange={handleOnChange} placeholder="Event Date..." />
+                <Input
+                  type="date"
+                  name="date"
+                  value={values.date}
+                  onChange={handleOnChange}
+                  placeholder="Event Date..." />
               </FormGroup>
               <FormGroup>
                 <Label for="price">Ticket Price</Label>
-                <Input type="number" name="price" value={values.price} onChange={handleOnChange} placeholder="Ticket Price..." />
+                <Input
+                  type="number"
+                  name="price"
+                  value={values.price}
+                  onChange={handleOnChange}
+                  placeholder="Ticket Price..." />
               </FormGroup>
               <FormGroup>
                 <Label for="description">Description</Label>
-                <Input type="textarea" name="description" value={values.description} onChange={handleOnChange} placeholder="Description..." />
+                <Input
+                  type="textarea"
+                  name="description"
+                  value={values.description}
+                  onChange={handleOnChange}
+                  placeholder="Description..." />
               </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color='primary' data-dismiss='modal' onClick={handleOnSubmit}>Save</Button>
+            <Button color='primary' onClick={this.submit}>Save</Button>
             <Button color='danger' onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </Modal>

@@ -17,9 +17,13 @@
 }
 
 .singleEvent {
-  background-color: #728caa;
+  background-color: #b0bac4;
   margin: 10px;
   padding: 20px;
   border-radius: 2em;
   font-size: 20px;
+}
+
+span {
+  color: #3686e0
 }

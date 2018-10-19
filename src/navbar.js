@@ -12,30 +12,26 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import FormModal from './openForm'
+import FormModal from './openForm';
 
 export default class NaviGate extends React.Component {
   state = {
-    isOpen: false,
     isFormModalOpen: false
   }
 
-  toggle = () => {
-    this.setState = ({
-      isOpen: !this.state.isOpen
-    })
-  };
-
-  openFormModal = () => this.setState(({ isFormModalOpen }) => ({ isFormModalOpen: !isFormModalOpen }))
-
+  openModal = () => {
+    console.log(this, 'navbar this')
+    this.setState(({ isFormModalOpen }) => ({ 
+      isFormModalOpen: !isFormModalOpen }));
+  }
 
   render() {
     return (
       <div className='container-fluid bg-dark'>
         <Navbar color='dark' dark expand className='container-fluid'>
           <NavbarBrand href='/'>I-Events</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <NavbarToggler />
+          <Collapse  navbar>
             <Nav className='ml-auto'>
               <NavItem>
                 <NavLink href='/home'>Home</NavLink>
@@ -57,7 +53,7 @@ export default class NaviGate extends React.Component {
                   <DropdownItem>
                     Upcoming Events
                   </DropdownItem>
-                  <DropdownItem onClick={this.openFormModal}>
+                  <DropdownItem onClick={this.openModal}>
                     Add New
                   </DropdownItem>
                   <DropdownItem divider />
@@ -68,7 +64,7 @@ export default class NaviGate extends React.Component {
               </UncontrolledDropdown>
               <FormModal
                 isOpen={this.state.isFormModalOpen}
-                onClose={this.openFormModal}
+                onClose={this.openModal}
                 values={this.props.values}
                 handleOnChange={this.props.handleOnChange}
                 handleOnSubmit={this.props.handleOnSubmit}

@@ -19,9 +19,10 @@ const newEvent = {
 
 class App extends React.Component {
   state = {
+    events: (localStorage['Events'] && JSON.parse(localStorage['Events'])) || [],
     newEvent,
-    events: []
   }
+
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ newEvent: { ...this.state.newEvent, [name]: value } })
@@ -31,25 +32,23 @@ class App extends React.Component {
     const errors = {};
     for (let key in values) {
       if (key === '') {
-        errors[key] = 'Required'
+        errors[key] = 'Required';
       }
     }
-
     if (!isEmpty(errors)) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 
   handleOnSubmit = (e) => {
     e.preventDefault();
     this.setState({ newEvent })
-    if (this.validate(this.state.newEvent)) return;
+    if (!this.validate(this.state.newEvent)) return;
     const { updateId } = this.state;
     if (updateId) {
-      this.submitUpdatedEvent();
+      this.submitEditedEvent();
     } else {
-      console.log('here for new events');
       this.submitNewEvent();
     }
   }
@@ -62,29 +61,48 @@ class App extends React.Component {
         id: UUID(),
       },
     ];
-    this.setState({ events });
+    this.setState(({ events }), () => this.updateLocalStorage());
   }
 
-  submitUpdatedEvent = (id) => {
-    const oldEvent = this.state.newEvent.find(c => c._id === id);
+  updateLocalStorage = () => {
+    localStorage['Events'] = JSON.stringify(this.state.events);
+  }
+
+  onEditEvent = (id) => {
+    const oldEvent = this.state.events.find(c => c.id === id);
     if (!oldEvent) return;
+
     this.setState({
-      name: oldEvent.name,
-      venue: oldEvent.venue,
-      date: oldEvent.date,
-      price: oldEvent.price,
-      description: oldEvent.description,
-      updateId: id
+      newEvent: {
+        name: oldEvent.name,
+        venue: oldEvent.venue,
+        date: oldEvent.date,
+        price: oldEvent.price,
+        description: oldEvent.description,
+        updateId: id,
+      }
     });
   }
+
+  // submitEditedEvent = (updateId) => {
+  //   // const events = [
+  //   //   ...this.state.events,
+  //   //   {
+  //   //     ...this.state.newEvent,
+  //   //     id: updateId,
+  //   //   },
+  //   // ];
+  //   this.setState({ events }, () => this.updateLocalStorage());
+  // }
+
   onDeleteEvent = (id) => {
     const events = this.state.events.filter(i => i.id !== id)
-    this.setState({ events });
+    this.setState({ events }, () => this.updateLocalStorage());
 
     // api calls here
   }
 
-  render() {
+  render() { 
     return (
       <div className='page'>
         <div className='navbar'>
@@ -92,18 +110,16 @@ class App extends React.Component {
             values={this.state.newEvent}
             handleOnChange={this.handleOnChange}
             handleOnSubmit={this.handleOnSubmit}
-            closeModal={this.props.OpenFormModal} />
+          />
         </div>
         <div className='Carousel'>
           <Carousel />
         </div>
-        <div>
-          <div>
-            <List
-              events={this.state.events}
-            />
-          </div>
-        </div>
+          <List
+            events={this.state.events}
+            handleEditEvent={this.onEditEvent}
+            handleDeleteEvent={this.onDeleteEvent}
+          />
       </div>
     );
   }
