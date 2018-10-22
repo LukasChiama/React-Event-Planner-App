@@ -11,7 +11,6 @@ class OpenForm extends React.Component {
   render() {
     const { onClose, isOpen, values, handleOnChange } = this.props;
     if (isEmpty(values)) return null;
-
     return (
       <div className='modal-form'>
         <Modal isOpen={isOpen} toggle={onClose} className={this.props.className}>

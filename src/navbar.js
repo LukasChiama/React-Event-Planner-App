@@ -20,7 +20,6 @@ export default class NaviGate extends React.Component {
   }
 
   openModal = () => {
-    console.log(this, 'navbar this')
     this.setState(({ isFormModalOpen }) => ({ 
       isFormModalOpen: !isFormModalOpen }));
   }
@@ -28,7 +27,7 @@ export default class NaviGate extends React.Component {
   render() {
     return (
       <div className='container-fluid bg-dark'>
-        <Navbar color='dark' dark expand className='container-fluid'>
+        <Navbar color='dark' dark expand fixed='top' className='container-fluid'>
           <NavbarBrand href='/'>I-Events</NavbarBrand>
           <NavbarToggler />
           <Collapse  navbar>

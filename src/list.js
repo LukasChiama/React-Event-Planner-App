@@ -5,18 +5,23 @@ import Form from './openForm.js';
 class List extends React.Component {
   state = {
     isModalOpen: false,
+    updateEvent: {},
   };
-  
+
   handleEditEvent = (id) => {
-    this.props.handleEditEvent(id);
-    console.log(this, 'list this')
-    this.setState(({ isModalOpen }) => ({ 
-      isModalOpen: !isModalOpen })
+    const updateEvent = this.props.events.find(x => x.id === id)
+    this.setState(({ isModalOpen }) => ({
+      isModalOpen: !isModalOpen,
+      updateEvent
+    })
     )
   }
 
+  editOnChange = () => {
+    this.props.handleOnChange()
+  }
+
   handleDeleteEvent = (id) => {
-    console.log(this, 'delete this')
     this.props.handleDeleteEvent(id)
   }
 
@@ -36,23 +41,21 @@ class List extends React.Component {
         <div>
           <Button color='warning' onClick={this.handleEditEvent.bind(null, event.id)}>Edit Event</Button>{' '}
           <Button color='danger' onClick={this.handleDeleteEvent.bind(null, event.id)}>Delete Event</Button>{' '}
+          <Form
+            isOpen={this.state.isModalOpen}
+            onClose={() => {}}
+            values={this.state.updateEvent}
+            handleOnChange={this.state.editedEvent}
+          />
         </div>
       </div>
     ));
   }
   render() {
     return (
-      <div>
         <div className='eventsContainer'>
           {this.eventNodes()}
         </div>
-        <div>
-          <Form
-            isOpen={this.state.isFormModalOpen}
-            onClose={this.handleEditEvent}
-          />
-        </div>
-      </div>
     );
   }
 }

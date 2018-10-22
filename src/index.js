@@ -26,6 +26,7 @@ class App extends React.Component {
 
   handleOnChange = ({ target: { name, value } }) => {
     this.setState({ newEvent: { ...this.state.newEvent, [name]: value } })
+    console.log(this.state.newEvent)
   }
 
   validate(values) {
@@ -68,32 +69,16 @@ class App extends React.Component {
     localStorage['Events'] = JSON.stringify(this.state.events);
   }
 
-  onEditEvent = (id) => {
-    const oldEvent = this.state.events.find(c => c.id === id);
-    if (!oldEvent) return;
-
-    this.setState({
-      newEvent: {
-        name: oldEvent.name,
-        venue: oldEvent.venue,
-        date: oldEvent.date,
-        price: oldEvent.price,
-        description: oldEvent.description,
-        updateId: id,
-      }
-    });
+  submitEditedEvent = (updateId) => {
+    const events = [
+      ...this.state.events,
+      {
+        ...this.state.newEvent,
+        id: updateId,
+      },
+    ];
+    this.setState({ events }, () => this.updateLocalStorage());
   }
-
-  // submitEditedEvent = (updateId) => {
-  //   // const events = [
-  //   //   ...this.state.events,
-  //   //   {
-  //   //     ...this.state.newEvent,
-  //   //     id: updateId,
-  //   //   },
-  //   // ];
-  //   this.setState({ events }, () => this.updateLocalStorage());
-  // }
 
   onDeleteEvent = (id) => {
     const events = this.state.events.filter(i => i.id !== id)
