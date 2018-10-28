@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 class OpenForm extends React.Component {
 
   submit = (e) => {
-    this.props.handleOnSubmit(e)
+    this.props.submitNewEvent(e)
     this.props.onClose()
   }
   render() {

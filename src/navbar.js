@@ -66,7 +66,7 @@ export default class NaviGate extends React.Component {
                 onClose={this.openModal}
                 values={this.props.values}
                 handleOnChange={this.props.handleOnChange}
-                handleOnSubmit={this.props.handleOnSubmit}
+                submitNewEvent={this.props.handleOnSubmit}
               />
             </Nav>
           </Collapse>
