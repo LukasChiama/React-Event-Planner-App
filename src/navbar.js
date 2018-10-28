@@ -36,7 +36,7 @@ export default class NaviGate extends React.Component {
                 <NavLink href='/home'>Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='https:www.github.com/lukaschiama'>GitHub</NavLink>
+                <NavLink href='https:www.github.com'>GitHub</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href='/clients'>Clients</NavLink>

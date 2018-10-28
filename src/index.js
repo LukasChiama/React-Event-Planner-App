@@ -27,15 +27,14 @@ class App extends React.Component {
   }
 
 
-  handleOnChange = ({ target: { name, value } }) => {
+  handleOnChange = ({ target: { name, value } }) =>
     this.setState({ newEvent: { ...this.state.newEvent, [name]: value } })
-  }
 
   validate(values) {
-    const errors = {};
+    const errors = [];
     for (let key in values) {
-      if (key === '') {
-        errors[key] = 'Required';
+      if (`${values[key]}` === '') {
+        errors.push('Required');
       }
     }
     if (!isEmpty(errors)) {
@@ -44,21 +43,10 @@ class App extends React.Component {
     return true;
   }
 
-  // handleOnSubmit = (e) => {
-  //   e.preventDefault();
-  //   this.setState({ newEvent })
-  //   if (!this.validate(this.state.newEvent)) return;
-  //   const { updateId } = this.state;
-  //   if (updateId) {
-  //     this.submitEditedEvent();
-  //   } else {
-  //     this.submitNewEvent();
-  //   }
-  // }
-
   submitNewEvent = (e) => {
     e.preventDefault();
     this.setState({ newEvent });
+    if (!this.validate(this.state.newEvent)) return;
     const events = [
       ...this.state.events,
       {
@@ -75,8 +63,18 @@ class App extends React.Component {
 
   submitEditedEvent = () => {
     const { updateId, newEvent, events } = this.state;
-    const updatedEvents = events.map(event => event.id === updateId ? {...event, ...this.state.newEvent }: event);
-    this.setState(({  events: updatedEvents, ...newEvent }), () => this.updateLocalStorage());
+    const updatedEvents = events.map(event => event.id === updateId ? { ...event, ...newEvent } : event);
+    this.setState(({
+      events: updatedEvents,
+      newEvent: {
+        name: '',
+        venue: '',
+        date: '',
+        price: '',
+        description: ''
+      }
+    }),
+      () => this.updateLocalStorage());
   }
 
   handleEditEvent = (id) => {
@@ -94,7 +92,7 @@ class App extends React.Component {
   }
 
   onModalClose = () => {
-    this.setState({ isModalOpen: false})
+    this.setState({ isModalOpen: false })
   }
 
   eventNodes = () => {
@@ -106,7 +104,7 @@ class App extends React.Component {
         <ul>
           <li><span>Event Name: </span>{event.name}</li>
           <li><span>Venue: </span>{event.venue}</li>
-          <li><span>Ticket Price: </span>{event.price}</li>
+          <li><span>Ticket Price: </span>${event.price}</li>
           <li><span>Date: </span>{event.date}</li>
           <li><span>Description: </span>{event.description}</li>
         </ul>
