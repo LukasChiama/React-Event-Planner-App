@@ -11,20 +11,35 @@
 
 .eventsContainer {
   display: flex;
-  flex-flow: column nowrap;
-  background-color: #cdcbd4;
-  margin-left: 200px;
-  margin-right: 200px;
+  flex-flow: row wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 10px 20px 10px 20px;
 }
 
 .singleEvent {
-  background-color: #b0bac4;
+  background-color: #f0f3f8e1;
+  box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.2);
   margin: 10px;
-  padding: 20px;
-  border-radius: 2em;
+  padding: 10px;
+  border-radius: 1em;
   font-size: 20px;
+  position: relative;
+  text-align: center;
 }
 
 span {
   color: #3686e0
+}
+
+img.image {
+  height: 150px;
+}
+
+.head {
+  background: rgba(157, 187, 63, .85);
+  padding: 5px;
+  color: #ffffef;
+  text-transform: uppercase;
+  font-family: Comic Sans Ms;
 }

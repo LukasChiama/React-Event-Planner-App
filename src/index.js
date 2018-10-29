@@ -16,6 +16,8 @@ const newEvent = {
   date: '',
   price: '',
   description: '',
+  image: '',
+  imageURL: '',
 }
 
 class App extends React.Component {
@@ -37,16 +39,32 @@ class App extends React.Component {
         errors.push('Required');
       }
     }
+    //
     if (!isEmpty(errors)) {
       return false;
     }
     return true;
   }
 
+  uploadImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    if (file.size >= 150000) return alert("File is too large!");
+    reader.onloadend = () => {
+      this.setState({
+        newEvent: {...this.state.newEvent,
+          image: file,
+          imageURL: reader.result,
+        }
+      })
+    }
+    reader.readAsDataURL(file);
+  }
+
   submitNewEvent = (e) => {
     e.preventDefault();
     this.setState({ newEvent });
-    if (!this.validate(this.state.newEvent)) return;
+    if (!this.validate(this.state.newEvent)) return alert("Cannot save! Fields are required!");
     const events = [
       ...this.state.events,
       {
@@ -71,7 +89,8 @@ class App extends React.Component {
         venue: '',
         date: '',
         price: '',
-        description: ''
+        description: '',
+        image: ''
       }
     }),
       () => this.updateLocalStorage());
@@ -92,7 +111,7 @@ class App extends React.Component {
   }
 
   onModalClose = () => {
-    this.setState({ isModalOpen: false })
+    this.setState({ isModalOpen: false, newEvent })
   }
 
   eventNodes = () => {
@@ -101,22 +120,22 @@ class App extends React.Component {
         key={event.id}
         id={event.id}
       >
-        <ul>
-          <li><span>Event Name: </span>{event.name}</li>
-          <li><span>Venue: </span>{event.venue}</li>
-          <li><span>Ticket Price: </span>${event.price}</li>
-          <li><span>Date: </span>{event.date}</li>
-          <li><span>Description: </span>{event.description}</li>
-        </ul>
+        <p className='head' >{event.name}</p>
+        <p><img alt='' src={event.imageURL} className='image'/>{event.file}</p>
+        <p><span>Venue: </span>{event.venue}</p>
+        <p><span>Ticket Price: </span>${event.price}</p>
+        <p><span>Date: </span>{event.date}</p>
+        <p><span>Description: </span>{event.description}</p>
         <div>
-          <Button color='warning' onClick={this.handleEditEvent.bind(this, event.id)}>Edit Event</Button>{' '}
-          <Button color='danger' onClick={this.handleDeleteEvent.bind(this, event.id)}>Delete Event</Button>{' '}
+          <Button outline color='secondary' onClick={this.handleEditEvent.bind(this, event.id)}>Edit Event</Button>{' '}
+          <Button outline color='danger' onClick={this.handleDeleteEvent.bind(this, event.id)}>Delete Event</Button>{' '}
           <Form
             isOpen={this.state.isModalOpen}
             onClose={this.onModalClose}
             values={this.state.newEvent}
             handleOnChange={this.handleOnChange}
             submitNewEvent={this.submitEditedEvent}
+            uploadImage={this.uploadImage}
           />
         </div>
       </div>
@@ -130,6 +149,7 @@ class App extends React.Component {
             values={this.state.newEvent}
             handleOnChange={this.handleOnChange}
             handleOnSubmit={this.submitNewEvent}
+            uploadImage={this.uploadImage}
           />
         </div>
         <div className='Carousel'>

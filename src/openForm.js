@@ -1,6 +1,6 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 class OpenForm extends React.Component {
 
@@ -8,8 +8,9 @@ class OpenForm extends React.Component {
     this.props.submitNewEvent(e)
     this.props.onClose()
   }
+
   render() {
-    const { onClose, isOpen, values, handleOnChange } = this.props;
+    const { onClose, isOpen, values, handleOnChange, uploadImage } = this.props;
     if (isEmpty(values)) return null;
     return (
       <div className='modal-form'>
@@ -61,6 +62,16 @@ class OpenForm extends React.Component {
                   value={values.description}
                   onChange={handleOnChange}
                   placeholder="Description..." />
+              </FormGroup>
+              <FormGroup>
+                <Label for="file">Event image</Label>
+                <input
+                  type="file"
+                  name="file"
+                  onChange={uploadImage} />
+                <FormText color="muted">
+                  Upload Event image file
+                </FormText>
               </FormGroup>
             </Form>
           </ModalBody>

@@ -65,6 +65,7 @@ export default class NaviGate extends React.Component {
                 isOpen={this.state.isFormModalOpen}
                 onClose={this.openModal}
                 values={this.props.values}
+                uploadImage={this.props.uploadImage}
                 handleOnChange={this.props.handleOnChange}
                 submitNewEvent={this.props.handleOnSubmit}
               />
