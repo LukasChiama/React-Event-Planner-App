@@ -1,6 +1,6 @@
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import wedding from './jeremy.jpg';
+import wedding from './wedding.jpg';
 import mountain_wedding from './jeremy.jpg';
 import drummer from './nathaniel.jpg';
 import biggy from './biggy.jpeg';
